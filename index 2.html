@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="IWIK – Industrial IoT, Data Intelligence & AI Automation for Mining, Manufacturing and Smart Buildings. Quebec, Canada."/>
+<meta name="keywords" content="IoT industriel, intelligence artificielle, automatisation, mining, données, SCADA, Québec"/>
+<title>IWIK – Intelligent Industrial Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #07080f;
+  --bg2: #0d0f1a;
+  --bg3: #111422;
+  --cyan: #00d4ff;
+  --violet: #7c3aed;
+  --white: #f0f4ff;
+  --muted: #6b7280;
+  --border: rgba(0,212,255,0.12);
+  --glow: 0 0 30px rgba(0,212,255,0.15);
+  --font-display: 'Orbitron', monospace;
+  --font-body: 'Sora', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2.5rem;
+  backdrop-filter: blur(20px);
+  background: rgba(7,8,15,0.85);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+nav.scrolled { padding: 0.6rem 2.5rem; }
+
+.nav-logo {
+  display: flex; align-items: center; gap: 0.75rem; text-decoration: none;
+}
+.nav-logo-img { width: 38px; height: 38px; filter: invert(1) drop-shadow(0 0 8px var(--cyan)); }
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 1.25rem; font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.1em;
+}
+
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--muted); text-decoration: none; font-size: 0.85rem;
+  font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cyan); }
+
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+
+.lang-toggle {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted); padding: 0.35rem 0.75rem;
+  border-radius: 20px; cursor: pointer; font-family: var(--font-body);
+  font-size: 0.8rem; letter-spacing: 0.05em; transition: all 0.2s;
+}
+.lang-toggle:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.nav-cta {
+  background: var(--cyan); color: #07080f;
+  border: none; padding: 0.5rem 1.2rem; border-radius: 6px;
+  font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.nav-cta:hover { background: #00f0ff; box-shadow: 0 0 20px rgba(0,212,255,0.4); }
+
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+.nav-hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; display: block; }
+
+/* ─── HERO ─── */
+#hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; padding: 8rem 2rem 4rem;
+}
+
+#hero-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0.5;
+}
+
+.hero-grid-overlay {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+  padding: 0.4rem 1rem; border-radius: 20px;
+  font-size: 0.8rem; font-weight: 500; color: var(--cyan);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-badge span { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse 2s infinite; }
+
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.5); } }
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  font-weight: 900; line-height: 1.05;
+  letter-spacing: -0.02em;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+
+.hero-title .line1 { display: block; color: var(--white); }
+.hero-title .line2 { display: block; color: var(--cyan); }
+.hero-title .line3 { display: block; color: var(--white); }
+
+.hero-sub {
+  margin-top: 1.5rem; font-size: 1.1rem; color: var(--muted);
+  font-weight: 300; max-width: 600px; margin-left: auto; margin-right: auto;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+
+.hero-btns {
+  margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+
+.btn-primary {
+  background: var(--cyan); color: #07080f;
+  border: none; padding: 0.85rem 2rem; border-radius: 8px;
+  font-family: var(--font-body); font-weight: 600; font-size: 0.95rem;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+  letter-spacing: 0.02em;
+}
+.btn-primary:hover { background: #00f0ff; box-shadow: 0 0 30px rgba(0,212,255,0.5); transform: translateY(-2px); }
+
+.btn-secondary {
+  background: transparent; color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2); padding: 0.85rem 2rem; border-radius: 8px;
+  font-family: var(--font-body); font-weight: 500; font-size: 0.95rem;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+
+.hero-stats {
+  margin-top: 4rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.4s ease both;
+}
+.hero-stat { text-align: center; }
+.hero-stat .val {
+  font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--cyan);
+  display: block;
+}
+.hero-stat .lbl { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── SECTIONS ─── */
+section { padding: 6rem 2rem; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+
+.section-label {
+  font-size: 0.75rem; font-weight: 600; color: var(--cyan);
+  letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section-label::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--cyan); }
+
+.section-title {
+  font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700; line-height: 1.15; margin-bottom: 1rem;
+}
+
+.section-desc { color: var(--muted); max-width: 600px; font-size: 1.05rem; }
+
+/* ─── ABOUT ─── */
+#about { background: var(--bg2); }
+
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+}
+
+.about-visual {
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+
+.about-orb {
+  width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(0,212,255,0.15), rgba(124,58,237,0.08), transparent 70%);
+  border: 1px solid rgba(0,212,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: orb-rotate 15s linear infinite;
+}
+
+@keyframes orb-rotate {
+  from { box-shadow: 0 0 40px rgba(0,212,255,0.1), inset 0 0 40px rgba(0,212,255,0.05); }
+  50% { box-shadow: 0 0 60px rgba(124,58,237,0.15), inset 0 0 60px rgba(124,58,237,0.08); }
+  to { box-shadow: 0 0 40px rgba(0,212,255,0.1), inset 0 0 40px rgba(0,212,255,0.05); }
+}
+
+.about-logo-big { width: 150px; filter: invert(1) drop-shadow(0 0 20px var(--cyan)); }
+
+.about-ring {
+  position: absolute; inset: -20px;
+  border: 1px dashed rgba(0,212,255,0.1); border-radius: 50%;
+  animation: spin 20s linear infinite;
+}
+.about-ring2 {
+  position: absolute; inset: -50px;
+  border: 1px dashed rgba(124,58,237,0.08); border-radius: 50%;
+  animation: spin 30s linear infinite reverse;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.about-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+.pill {
+  background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.15);
+  color: var(--cyan); padding: 0.3rem 0.75rem; border-radius: 20px;
+  font-size: 0.8rem; font-weight: 500;
+}
+.pill.violet { background: rgba(124,58,237,0.07); border-color: rgba(124,58,237,0.15); color: #a78bfa; }
+
+/* ─── SERVICES ─── */
+#services { background: var(--bg); }
+
+.services-grid {
+  margin-top: 3rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;
+}
+
+.service-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem;
+  transition: all 0.3s; position: relative; overflow: hidden;
+  cursor: default;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  transform: translateX(-100%); transition: transform 0.5s;
+}
+.service-card:hover::before { transform: translateX(0); }
+.service-card:hover {
+  border-color: rgba(0,212,255,0.25);
+  box-shadow: var(--glow);
+  transform: translateY(-4px);
+}
+
+.service-icon {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 1.25rem;
+}
+.service-card.violet-card .service-icon {
+  background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.15);
+}
+
+.service-card h3 { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+.service-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; margin-bottom: 1.25rem; }
+.service-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.service-tag {
+  font-size: 0.72rem; color: var(--muted); border: 1px solid rgba(255,255,255,0.07);
+  padding: 0.2rem 0.6rem; border-radius: 20px;
+}
+
+/* ─── INDUSTRIES ─── */
+#industries { background: var(--bg2); }
+
+.industries-grid {
+  margin-top: 3rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;
+}
+
+.industry-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.75rem 1.25rem;
+  text-align: center; transition: all 0.3s; cursor: default;
+}
+.industry-card:hover {
+  border-color: rgba(0,212,255,0.3);
+  box-shadow: 0 0 20px rgba(0,212,255,0.1);
+  transform: translateY(-3px);
+}
+.industry-icon { font-size: 2.2rem; margin-bottom: 0.75rem; display: block; }
+.industry-card h4 { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; color: var(--white); }
+
+/* ─── DASHBOARD ─── */
+#dashboard { background: var(--bg); }
+
+.dashboard-frame {
+  margin-top: 3rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 0 80px rgba(0,212,255,0.08);
+}
+
+.dash-topbar {
+  background: var(--bg3); padding: 0.75rem 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.dash-dots { display: flex; gap: 6px; }
+.dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+.dash-dot.r { background: #ff5f57; }
+.dash-dot.y { background: #ffbd2e; }
+.dash-dot.g { background: #28ca41; }
+.dash-title-bar { font-family: var(--font-display); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; }
+.dash-live {
+  margin-left: auto; display: flex; align-items: center; gap: 6px;
+  font-size: 0.7rem; color: #22c55e; font-weight: 600;
+}
+.live-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: pulse 1.5s infinite; }
+
+.dash-body { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+.dash-panel { padding: 1.5rem; border-right: 1px solid var(--border); }
+.dash-panel:last-child { border-right: none; }
+
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.kpi-box {
+  background: var(--bg3); border-radius: 10px; padding: 1rem;
+  border: 1px solid var(--border);
+}
+.kpi-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.kpi-value { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--cyan); margin-top: 0.2rem; }
+.kpi-delta { font-size: 0.7rem; color: #22c55e; }
+.kpi-delta.red { color: #ef4444; }
+
+.dash-chart-title { font-family: var(--font-display); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 1rem; }
+
+.mini-chart { position: relative; height: 100px; }
+.mini-chart svg { width: 100%; height: 100%; }
+
+.alarm-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.alarm-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: var(--bg3); border-radius: 8px; padding: 0.6rem 0.75rem;
+  border-left: 3px solid transparent;
+  font-size: 0.78rem;
+}
+.alarm-item.warn { border-color: #f59e0b; }
+.alarm-item.ok { border-color: #22c55e; }
+.alarm-item.err { border-color: #ef4444; }
+.alarm-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.alarm-item.warn .alarm-dot { background: #f59e0b; }
+.alarm-item.ok .alarm-dot { background: #22c55e; }
+.alarm-item.err .alarm-dot { background: #ef4444; }
+.alarm-name { flex: 1; color: var(--white); }
+.alarm-time { color: var(--muted); font-size: 0.7rem; }
+
+.eq-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+.eq-item { display: flex; align-items: center; gap: 0.75rem; }
+.eq-bar-wrap { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.eq-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.eq-name { font-size: 0.75rem; color: var(--muted); width: 90px; flex-shrink: 0; }
+.eq-pct { font-size: 0.72rem; color: var(--white); width: 36px; text-align: right; }
+
+/* ─── WHY ─── */
+#why { background: var(--bg2); }
+
+.why-grid {
+  margin-top: 3rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem;
+}
+.why-card {
+  padding: 1.75rem; border-radius: 14px;
+  background: var(--bg3); border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.why-card:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-3px); }
+.why-icon { font-size: 2rem; margin-bottom: 1rem; }
+.why-card h3 { font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 0.06em; }
+.why-card p { color: var(--muted); font-size: 0.88rem; }
+
+/* ─── CONTACT ─── */
+#contact { background: var(--bg); }
+
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; }
+
+.contact-info { padding-top: 0.5rem; }
+.contact-info p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+
+.contact-item {
+  display: flex; align-items: flex-start; gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.contact-item-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.contact-item-text { font-size: 0.9rem; }
+.contact-item-text .label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.contact-item-text a { color: var(--white); text-decoration: none; }
+.contact-item-text a:hover { color: var(--cyan); }
+
+.contact-form {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2.5rem;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+.form-group label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.form-group input, .form-group select, .form-group textarea {
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--white); padding: 0.75rem 1rem; border-radius: 8px;
+  font-family: var(--font-body); font-size: 0.9rem; transition: all 0.2s;
+  outline: none;
+}
+.form-group select option { background: var(--bg3); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.form-submit {
+  width: 100%; padding: 0.9rem; border-radius: 8px;
+  background: linear-gradient(90deg, var(--cyan), #00a8ff);
+  color: #07080f; font-family: var(--font-body);
+  font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer;
+  transition: all 0.3s; letter-spacing: 0.02em;
+}
+.form-submit:hover { box-shadow: 0 0 30px rgba(0,212,255,0.4); transform: translateY(-2px); }
+.form-success { display: none; text-align: center; padding: 2rem; color: #22c55e; font-family: var(--font-display); font-size: 0.9rem; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 2.5rem; text-align: center;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: gap; gap: 1rem; }
+.footer-copy { color: var(--muted); font-size: 0.82rem; }
+.footer-flag { font-size: 1.1rem; }
+.footer-logo { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; }
+
+/* ─── REVEAL ANIMATIONS ─── */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { display: none; }
+  .dash-body { grid-template-columns: 1fr; }
+  .dash-panel { border-right: none; border-bottom: 1px solid var(--border); }
+  .contact-grid { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .mobile-menu {
+    position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+    background: rgba(7,8,15,0.97); backdrop-filter: blur(20px);
+    padding: 2rem; z-index: 999;
+    flex-direction: column; gap: 1.5rem;
+    display: none;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-family: var(--font-display); font-size: 1.2rem; color: var(--white); text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
+}
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .hero-stats { gap: 1.5rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .industries-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ─── CHART ANIMATION ─── */
+.chart-line { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawLine 2s 0.5s ease forwards; }
+@keyframes drawLine { to { stroke-dashoffset: 0; } }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">
+    <img src="https://i.imgur.com/placeholder.png" class="nav-logo-img" id="nav-logo-img" alt="IWIK"/>
+    <span class="nav-logo-text">IWIK</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about" data-en="About" data-fr="À Propos">About</a></li>
+    <li><a href="#services" data-en="Services" data-fr="Services">Services</a></li>
+    <li><a href="#industries" data-en="Industries" data-fr="Industries">Industries</a></li>
+    <li><a href="#dashboard" data-en="Platform" data-fr="Plateforme">Platform</a></li>
+    <li><a href="#contact" data-en="Contact" data-fr="Contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-toggle" id="lang-btn">FR</button>
+    <a href="#contact" class="nav-cta" data-en="Get Started" data-fr="Commencer">Get Started</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" data-en="About" data-fr="À Propos">About</a>
+  <a href="#services" data-en="Services" data-fr="Services">Services</a>
+  <a href="#industries" data-en="Industries" data-fr="Industries">Industries</a>
+  <a href="#dashboard" data-en="Platform" data-fr="Plateforme">Platform</a>
+  <a href="#contact" data-en="Contact" data-fr="Contact">Contact</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span></span>
+      <span data-en="Canadian Industrial Technology" data-fr="Technologie Industrielle Canadienne">Canadian Industrial Technology</span>
+      🇨🇦
+    </div>
+    <h1 class="hero-title">
+      <span class="line1" data-en="Turning Data Into" data-fr="Transformer les Données en">Turning Data Into</span>
+      <span class="line2" data-en="Intelligent" data-fr="Opérations">Intelligent</span>
+      <span class="line3" data-en="Operations." data-fr="Intelligentes.">Operations.</span>
+    </h1>
+    <p class="hero-sub" data-en="IWIK develops smart solutions that connect equipment, analyze data, and optimize operations in real time — for mining, industry, and beyond." data-fr="IWIK développe des solutions intelligentes qui connectent les équipements, analysent les données et optimisent les opérations en temps réel.">
+      IWIK develops smart solutions that connect equipment, analyze data, and optimize operations in real time — for mining, industry, and beyond.
+    </p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary" data-en="Discover Our Solutions" data-fr="Découvrir Nos Solutions">Discover Our Solutions</a>
+      <a href="#contact" class="btn-secondary" data-en="Contact Us" data-fr="Nous Contacter">Contact Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="val" data-count="99">0</span>
+        <span class="lbl" data-en="% Uptime" data-fr="% Disponibilité">% Uptime</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val" data-count="24">0</span>
+        <span class="lbl" data-en="/7 Monitoring" data-fr="/7 Surveillance">/7 Monitoring</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val" data-count="50">0</span>
+        <span class="lbl" data-en="+ IoT Protocols" data-fr="+ Protocoles IoT">+ IoT Protocols</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val" data-count="5">0</span>
+        <span class="lbl" data-en="+ Industries" data-fr="+ Industries">+ Industries</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="section-inner about-grid">
+    <div class="about-visual">
+      <div class="about-orb">
+        <img src="" class="about-logo-big" id="about-logo-img" alt="IWIK"/>
+        <div class="about-ring"></div>
+        <div class="about-ring2"></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label" data-en="Who We Are" data-fr="Qui Sommes-Nous">Who We Are</div>
+      <h2 class="section-title" data-en="Quebec-Based Intelligence for Modern Industry" data-fr="Intelligence Québécoise pour l'Industrie Moderne">
+        Quebec-Based Intelligence<br/>for Modern Industry
+      </h2>
+      <p style="color:var(--muted); margin: 1.25rem 0; font-size: 0.95rem;" data-en="IWIK is a Quebec technology company specialized in IoT solutions, data intelligence, and intelligent automation for industrial, commercial, and mining enterprises. We transform complex operational data into clear, actionable decisions." data-fr="IWIK est une entreprise technologique québécoise spécialisée dans les solutions IoT, l'intelligence des données et l'automatisation intelligente pour les entreprises industrielles, commerciales et minières.">
+        IWIK is a Quebec technology company specialized in IoT solutions, data intelligence, and intelligent automation for industrial, commercial, and mining enterprises. We transform complex operational data into clear, actionable decisions.
+      </p>
+      <p style="color:var(--muted); font-size: 0.95rem;" data-en="Our expertise spans real-time connectivity, predictive AI, SCADA integration, and custom platform development — helping modern operations run smarter, safer, and faster." data-fr="Notre expertise couvre la connectivité temps réel, l'IA prédictive, l'intégration SCADA et le développement de plateformes personnalisées — pour des opérations plus intelligentes, plus sûres et plus rapides.">
+        Our expertise spans real-time connectivity, predictive AI, SCADA integration, and custom platform development — helping modern operations run smarter, safer, and faster.
+      </p>
+      <div class="about-pills">
+        <span class="pill">IoT Industriel</span>
+        <span class="pill violet">IA & Machine Learning</span>
+        <span class="pill">SCADA / OT</span>
+        <span class="pill violet">Data Analytics</span>
+        <span class="pill">Réseaux LTE Privés</span>
+        <span class="pill">Mining Tech</span>
+        <span class="pill violet">Cloud Industriel</span>
+        <span class="pill">Solutions SaaS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="section-inner reveal">
+    <div class="section-label" data-en="What We Build" data-fr="Ce Que Nous Construisons">What We Build</div>
+    <h2 class="section-title" data-en="End-to-End Industrial Solutions" data-fr="Solutions Industrielles de Bout en Bout">End-to-End Industrial Solutions</h2>
+    <p class="section-desc" data-en="From edge sensors to executive dashboards — we cover every layer of your industrial data stack." data-fr="Des capteurs périphériques aux tableaux de bord — nous couvrons chaque couche de votre infrastructure de données industrielles.">
+      From edge sensors to executive dashboards — we cover every layer of your industrial data stack.
+    </p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">📡</div>
+        <h3 data-en="Industrial IoT" data-fr="IoT Industriel">Industrial IoT</h3>
+        <p data-en="Connect any machine or vehicle to our network. Acquire real-time data, monitor remotely, and build complete OT/IIoT infrastructure for your site." data-fr="Connectez n'importe quelle machine ou véhicule à notre réseau. Acquisition de données en temps réel, surveillance à distance et infrastructure OT/IIoT complète.">
+          Connect any machine or vehicle to our network. Acquire real-time data, monitor remotely, and build complete OT/IIoT infrastructure for your site.
+        </p>
+        <div class="service-tags">
+          <span class="service-tag">MQTT / OPC-UA</span>
+          <span class="service-tag">Edge Computing</span>
+          <span class="service-tag">Private LTE</span>
+          <span class="service-tag">Telemetry</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">📊</div>
+        <h3 data-en="Business Intelligence" data-fr="Intelligence d'Affaires">Business Intelligence</h3>
+        <p data-en="Transform raw operational data into actionable dashboards. Real-time KPIs, automated reporting, predictive analytics, and centralized data visibility." data-fr="Transformez les données brutes en tableaux de bord exploitables. KPI en temps réel, rapports automatisés, analyse prédictive et visibilité centralisée.">
+          Transform raw operational data into actionable dashboards. Real-time KPIs, automated reporting, predictive analytics, and centralized data visibility.
+        </p>
+        <div class="service-tags">
+          <span class="service-tag">Dashboards</span>
+          <span class="service-tag">Predictive</span>
+          <span class="service-tag">Reporting</span>
+          <span class="service-tag">KPI Monitoring</span>
+        </div>
+      </div>
+      <div class="service-card violet-card reveal">
+        <div class="service-icon">🤖</div>
+        <h3 data-en="AI & Smart Analytics" data-fr="IA & Analyse Intelligente">AI & Smart Analytics</h3>
+        <p data-en="Deploy AI on your operations: anomaly detection, computer vision, equipment behavior analysis, and predictive maintenance for heavy machinery." data-fr="Déployez l'IA sur vos opérations : détection d'anomalies, vision artificielle, analyse comportementale et maintenance prédictive pour équipements lourds.">
+          Deploy AI on your operations: anomaly detection, computer vision, equipment behavior analysis, and predictive maintenance for heavy machinery.
+        </p>
+        <div class="service-tags">
+          <span class="service-tag">Anomaly Detection</span>
+          <span class="service-tag">Computer Vision</span>
+          <span class="service-tag">Predictive AI</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">⚙️</div>
+        <h3 data-en="Automation & Integration" data-fr="Automatisation & Intégration">Automation & Integration</h3>
+        <p data-en="Connect legacy systems and modern platforms. PLC/SCADA integration, API bridging, cloud connectivity, and intelligent workflow automation." data-fr="Connectez les systèmes hérités et les plateformes modernes. Intégration PLC/SCADA, API, connectivité cloud et automatisation intelligente des workflows.">
+          Connect legacy systems and modern platforms. PLC/SCADA integration, API bridging, cloud connectivity, and intelligent workflow automation.
+        </p>
+        <div class="service-tags">
+          <span class="service-tag">PLC / SCADA</span>
+          <span class="service-tag">API Integration</span>
+          <span class="service-tag">Workflow</span>
+        </div>
+      </div>
+      <div class="service-card violet-card reveal">
+        <div class="service-icon">🛰️</div>
+        <h3 data-en="Smart Monitoring" data-fr="Surveillance Intelligente">Smart Monitoring</h3>
+        <p data-en="24/7 real-time monitoring with intelligent alerts, equipment health tracking, remote diagnostics, and automated incident response protocols." data-fr="Surveillance en temps réel 24/7 avec alertes intelligentes, suivi de l'état des équipements, diagnostics à distance et protocoles de réponse aux incidents.">
+          24/7 real-time monitoring with intelligent alerts, equipment health tracking, remote diagnostics, and automated incident response protocols.
+        </p>
+        <div class="service-tags">
+          <span class="service-tag">Real-time Alerts</span>
+          <span class="service-tag">Remote Diagnostics</span>
+          <span class="service-tag">Health Tracking</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🏗️</div>
+        <h3 data-en="Custom Development" data-fr="Développement Sur Mesure">Custom Development</h3>
+        <p data-en="From IoT platforms to client portals and SaaS products — we design and build bespoke technology solutions tailored to your operational needs." data-fr="Des plateformes IoT aux portails clients et produits SaaS — nous concevons des solutions technologiques personnalisées adaptées à vos besoins opérationnels.">
+          From IoT platforms to client portals and SaaS products — we design and build bespoke technology solutions tailored to your operational needs.
+        </p>
+        <div class="service-tags">
+          <span class="service-tag">Web Apps</span>
+          <span class="service-tag">IoT Platforms</span>
+          <span class="service-tag">SaaS</span>
+          <span class="service-tag">Portals</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INDUSTRIES ═══ -->
+<section id="industries">
+  <div class="section-inner reveal">
+    <div class="section-label" data-en="Sectors We Serve" data-fr="Secteurs Que Nous Servons">Sectors We Serve</div>
+    <h2 class="section-title" data-en="Industries We Power" data-fr="Industries Que Nous Alimentons">Industries We Power</h2>
+    <div class="industries-grid">
+      <div class="industry-card reveal">
+        <span class="industry-icon">⛏️</span>
+        <h4 data-en="Mining" data-fr="Mines">Mining</h4>
+      </div>
+      <div class="industry-card reveal">
+        <span class="industry-icon">🏭</span>
+        <h4 data-en="Manufacturing" data-fr="Fabrication">Manufacturing</h4>
+      </div>
+      <div class="industry-card reveal">
+        <span class="industry-icon">🚚</span>
+        <h4 data-en="Logistics" data-fr="Logistique">Logistics</h4>
+      </div>
+      <div class="industry-card reveal">
+        <span class="industry-icon">🏢</span>
+        <h4 data-en="Smart Buildings" data-fr="Bâtiments Intelligents">Smart Buildings</h4>
+      </div>
+      <div class="industry-card reveal">
+        <span class="industry-icon">⚡</span>
+        <h4 data-en="Energy" data-fr="Énergie">Energy</h4>
+      </div>
+      <div class="industry-card reveal">
+        <span class="industry-icon">🚆</span>
+        <h4 data-en="Transportation" data-fr="Transport">Transportation</h4>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DASHBOARD ═══ -->
+<section id="dashboard">
+  <div class="section-inner reveal">
+    <div class="section-label" data-en="Live Platform Preview" data-fr="Aperçu de la Plateforme">Live Platform Preview</div>
+    <h2 class="section-title" data-en="IWIK Command Center" data-fr="Centre de Commande IWIK">IWIK Command Center</h2>
+    <p class="section-desc" data-en="A real-time operational intelligence platform — monitoring equipment, data flows, and alerts across your entire site." data-fr="Une plateforme d'intelligence opérationnelle en temps réel — équipements, flux de données et alertes sur l'ensemble de votre site.">
+      A real-time operational intelligence platform — monitoring equipment, data flows, and alerts across your entire site.
+    </p>
+    <div class="dashboard-frame">
+      <div class="dash-topbar">
+        <div class="dash-dots">
+          <div class="dash-dot r"></div>
+          <div class="dash-dot y"></div>
+          <div class="dash-dot g"></div>
+        </div>
+        <div class="dash-title-bar">IWIK OPERATIONS CENTER — SITE ALPHA</div>
+        <div class="dash-live"><div class="live-dot"></div> LIVE</div>
+      </div>
+      <div class="dash-body">
+        <!-- KPIs -->
+        <div class="dash-panel">
+          <div class="dash-chart-title" data-en="KEY PERFORMANCE INDICATORS" data-fr="INDICATEURS CLÉS">KEY PERFORMANCE INDICATORS</div>
+          <div class="kpi-grid">
+            <div class="kpi-box">
+              <div class="kpi-label" data-en="Fleet Efficiency" data-fr="Efficacité Flotte">Fleet Efficiency</div>
+              <div class="kpi-value" id="kpi1">87.4%</div>
+              <div class="kpi-delta">▲ +2.1%</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label" data-en="Active Units" data-fr="Unités Actives">Active Units</div>
+              <div class="kpi-value" id="kpi2">24</div>
+              <div class="kpi-delta">● Online</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label" data-en="Tons/Hour" data-fr="Tonnes/Heure">Tons/Hour</div>
+              <div class="kpi-value" id="kpi3">3,248</div>
+              <div class="kpi-delta">▲ +5.8%</div>
+            </div>
+            <div class="kpi-box">
+              <div class="kpi-label" data-en="Fuel Savings" data-fr="Économies Carburant">Fuel Savings</div>
+              <div class="kpi-value">12.3%</div>
+              <div class="kpi-delta">▲ This week</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;">
+            <div class="dash-chart-title" data-en="EQUIPMENT STATUS" data-fr="ÉTAT ÉQUIPEMENTS">EQUIPMENT STATUS</div>
+            <div class="eq-list">
+              <div class="eq-item">
+                <span class="eq-name" style="font-size:0.72rem;color:var(--muted)">Haul Truck A3</span>
+                <div class="eq-bar-wrap"><div class="eq-bar" style="width:91%; background: linear-gradient(90deg,#00d4ff,#00a8ff);"></div></div>
+                <span class="eq-pct">91%</span>
+              </div>
+              <div class="eq-item">
+                <span class="eq-name" style="font-size:0.72rem;color:var(--muted)">Shovel EX-7</span>
+                <div class="eq-bar-wrap"><div class="eq-bar" style="width:78%; background: linear-gradient(90deg,#7c3aed,#a78bfa);"></div></div>
+                <span class="eq-pct">78%</span>
+              </div>
+              <div class="eq-item">
+                <span class="eq-name" style="font-size:0.72rem;color:var(--muted)">Drill BH-12</span>
+                <div class="eq-bar-wrap"><div class="eq-bar" style="width:95%; background: linear-gradient(90deg,#22c55e,#86efac);"></div></div>
+                <span class="eq-pct">95%</span>
+              </div>
+              <div class="eq-item">
+                <span class="eq-name" style="font-size:0.72rem;color:var(--muted)">Grader MG-4</span>
+                <div class="eq-bar-wrap"><div class="eq-bar" style="width:62%; background: linear-gradient(90deg,#f59e0b,#fde68a);"></div></div>
+                <span class="eq-pct">62%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- CHART -->
+        <div class="dash-panel">
+          <div class="dash-chart-title" data-en="REAL-TIME THROUGHPUT (tons/h)" data-fr="DÉBIT EN TEMPS RÉEL (tonnes/h)">REAL-TIME THROUGHPUT (tons/h)</div>
+          <div class="mini-chart">
+            <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0 80 L25 65 L50 70 L75 45 L100 55 L125 35 L150 40 L175 25 L200 30 L225 20 L250 28 L275 15 L300 10 L300 100 L0 100 Z" fill="url(#chartGrad)"/>
+              <path class="chart-line" d="M0 80 L25 65 L50 70 L75 45 L100 55 L125 35 L150 40 L175 25 L200 30 L225 20 L250 28 L275 15 L300 10" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="dash-chart-title" style="margin-top:1rem;" data-en="ENERGY CONSUMPTION (MWh)" data-fr="CONSOMMATION ÉNERGIE (MWh)">ENERGY CONSUMPTION (MWh)</div>
+          <div class="mini-chart">
+            <svg viewBox="0 0 300 80" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGrad2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0 50 L30 45 L60 55 L90 40 L120 48 L150 35 L180 42 L210 30 L240 38 L270 28 L300 25 L300 80 L0 80 Z" fill="url(#chartGrad2)"/>
+              <path class="chart-line" d="M0 50 L30 45 L60 55 L90 40 L120 48 L150 35 L180 42 L210 30 L240 38 L270 28 L300 25" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" style="animation-delay:0.3s"/>
+            </svg>
+          </div>
+          <div style="display:flex; gap:1rem; margin-top:0.75rem; flex-wrap:wrap;">
+            <div style="flex:1; background:var(--bg3); border-radius:8px; padding:0.75rem; border:1px solid var(--border);">
+              <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;" data-en="Avg Cycle Time" data-fr="Temps Cycle Moy.">Avg Cycle Time</div>
+              <div style="font-family:var(--font-display); font-size:1.1rem; color:#a78bfa;" id="cycle">24.7 min</div>
+            </div>
+            <div style="flex:1; background:var(--bg3); border-radius:8px; padding:0.75rem; border:1px solid var(--border);">
+              <div style="font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;" data-en="AI Alerts Today" data-fr="Alertes IA Aujourd'hui">AI Alerts Today</div>
+              <div style="font-family:var(--font-display); font-size:1.1rem; color:#f59e0b;" id="alerts">3</div>
+            </div>
+          </div>
+        </div>
+        <!-- ALARMS -->
+        <div class="dash-panel">
+          <div class="dash-chart-title" data-en="SYSTEM EVENTS & ALERTS" data-fr="ÉVÉNEMENTS & ALERTES">SYSTEM EVENTS & ALERTS</div>
+          <div class="alarm-list">
+            <div class="alarm-item ok">
+              <div class="alarm-dot"></div>
+              <span class="alarm-name" data-en="Drill BH-12: Operational" data-fr="Foreuse BH-12 : Opérationnelle">Drill BH-12: Operational</span>
+              <span class="alarm-time">now</span>
+            </div>
+            <div class="alarm-item warn">
+              <div class="alarm-dot"></div>
+              <span class="alarm-name" data-en="Grader MG-4: High temp" data-fr="Niveleuse MG-4 : Temp. élevée">Grader MG-4: High temp</span>
+              <span class="alarm-time">4m</span>
+            </div>
+            <div class="alarm-item ok">
+              <div class="alarm-dot"></div>
+              <span class="alarm-name" data-en="Network: All nodes OK" data-fr="Réseau : Tous les nœuds OK">Network: All nodes OK</span>
+              <span class="alarm-time">6m</span>
+            </div>
+            <div class="alarm-item err">
+              <div class="alarm-dot"></div>
+              <span class="alarm-name" data-en="Loader WL-2: Low pressure" data-fr="Chargeuse WL-2 : Pression basse">Loader WL-2: Low pressure</span>
+              <span class="alarm-time">11m</span>
+            </div>
+            <div class="alarm-item ok">
+              <div class="alarm-dot"></div>
+              <span class="alarm-name" data-en="AI model: Anomaly cleared" data-fr="Modèle IA : Anomalie résolue">AI model: Anomaly cleared</span>
+              <span class="alarm-time">18m</span>
+            </div>
+            <div class="alarm-item warn">
+              <div class="alarm-dot"></div>
+              <span class="alarm-name" data-en="Haul Truck A1: Scheduled PM" data-fr="Camion A1 : Entretien préventif">Haul Truck A1: Scheduled PM</span>
+              <span class="alarm-time">32m</span>
+            </div>
+          </div>
+          <div style="margin-top:1.25rem; padding:0.85rem; background:var(--bg3); border-radius:10px; border:1px solid rgba(0,212,255,0.1);">
+            <div style="font-size:0.7rem; color:var(--muted); margin-bottom:0.4rem;" data-en="AI PREDICTION — NEXT 4H" data-fr="PRÉDICTION IA — 4 PROCHAINES H">AI PREDICTION — NEXT 4H</div>
+            <div style="font-size:0.85rem; color:var(--white);">🤖 <span data-en="Grader MG-4 maintenance recommended before 16:00 based on thermal pattern analysis." data-fr="Entretien Niveleuse MG-4 recommandé avant 16h00 selon l'analyse thermique.">Grader MG-4 maintenance recommended before 16:00 based on thermal pattern analysis.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY ═══ -->
+<section id="why">
+  <div class="section-inner reveal">
+    <div class="section-label" data-en="Our Edge" data-fr="Notre Avantage">Our Edge</div>
+    <h2 class="section-title" data-en="Why IWIK" data-fr="Pourquoi IWIK">Why IWIK</h2>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">⚡</div>
+        <h3 data-en="Real-Time Insights" data-fr="Données en Temps Réel">Real-Time Insights</h3>
+        <p data-en="Live data from every asset on your site, processed in milliseconds and delivered to your team instantly." data-fr="Données en direct de chaque actif sur votre site, traitées en millisecondes et livrées instantanément à votre équipe.">Live data from every asset on your site, processed in milliseconds and delivered to your team instantly.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🔒</div>
+        <h3 data-en="Secure Infrastructure" data-fr="Infrastructure Sécurisée">Secure Infrastructure</h3>
+        <p data-en="End-to-end encrypted data pipelines, compliant with industrial cybersecurity standards. Your OT network stays protected." data-fr="Pipelines de données chiffrés de bout en bout, conformes aux normes de cybersécurité industrielle. Votre réseau OT reste protégé.">End-to-end encrypted data pipelines, compliant with industrial cybersecurity standards. Your OT network stays protected.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">📈</div>
+        <h3 data-en="Scalable Solutions" data-fr="Solutions Scalables">Scalable Solutions</h3>
+        <p data-en="From a single sensor to a multi-site enterprise deployment — our architecture scales with your operations." data-fr="D'un seul capteur à un déploiement multi-sites — notre architecture s'adapte à l'échelle de vos opérations.">From a single sensor to a multi-site enterprise deployment — our architecture scales with your operations.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">⛏️</div>
+        <h3 data-en="Industrial Expertise" data-fr="Expertise Industrielle">Industrial Expertise</h3>
+        <p data-en="We understand mining, heavy equipment, and harsh environments — because we've worked in them. Our solutions are built for real sites." data-fr="Nous comprenons les mines, les équipements lourds et les environnements difficiles — nos solutions sont conçues pour des sites réels.">We understand mining, heavy equipment, and harsh environments — because we've worked in them. Our solutions are built for real sites.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🤖</div>
+        <h3 data-en="AI-Powered Analytics" data-fr="Analytique Propulsée par IA">AI-Powered Analytics</h3>
+        <p data-en="Predictive models trained on industrial data detect anomalies, forecast failures, and continuously optimize your operations." data-fr="Des modèles prédictifs entraînés sur des données industrielles détectent les anomalies, prévoient les pannes et optimisent continuellement vos opérations.">Predictive models trained on industrial data detect anomalies, forecast failures, and continuously optimize your operations.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🔌</div>
+        <h3 data-en="Custom Integrations" data-fr="Intégrations Personnalisées">Custom Integrations</h3>
+        <p data-en="We integrate with your existing PLC, SCADA, ERP, and cloud systems. No rip-and-replace — we work with what you have." data-fr="Nous intégrons vos PLC, SCADA, ERP et systèmes cloud existants. Pas de remplacement — nous travaillons avec ce que vous avez.">We integrate with your existing PLC, SCADA, ERP, and cloud systems. No rip-and-replace — we work with what you have.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="section-inner reveal">
+    <div class="section-label" data-en="Get In Touch" data-fr="Nous Contacter">Get In Touch</div>
+    <h2 class="section-title" data-en="Let's Build Something Intelligent" data-fr="Construisons Quelque Chose d'Intelligent">Let's Build Something Intelligent</h2>
+    <div class="contact-grid" style="margin-top:3rem;">
+      <div class="contact-info">
+        <p data-en="Whether you're looking to modernize a mining site, connect industrial equipment, or build a custom IoT platform — we'd love to hear about your project." data-fr="Que vous souhaitiez moderniser un site minier, connecter des équipements industriels ou construire une plateforme IoT personnalisée — nous voulons en savoir plus sur votre projet.">
+          Whether you're looking to modernize a mining site, connect industrial equipment, or build a custom IoT platform — we'd love to hear about your project.
+        </p>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <div class="label" data-en="Location" data-fr="Localisation">Location</div>
+            <div>Québec, Canada 🇨🇦</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div class="contact-item-text">
+            <div class="label">Email</div>
+            <a href="mailto:info@iwik.ca">info@iwik.ca</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">💼</div>
+          <div class="contact-item-text">
+            <div class="label">LinkedIn</div>
+            <a href="https://linkedin.com" target="_blank">IWIK Solutions</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🏢</div>
+          <div class="contact-item-text">
+            <div class="label" data-en="Company" data-fr="Entreprise">Company</div>
+            <div>Solutions IWIK Inc.</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div id="form-wrap">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-en="Full Name" data-fr="Nom Complet">Full Name</label>
+              <input type="text" id="f-name" placeholder="John Smith"/>
+            </div>
+            <div class="form-group">
+              <label data-en="Company" data-fr="Entreprise">Company</label>
+              <input type="text" id="f-company" placeholder="Acme Mining Inc."/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="f-email" placeholder="you@company.com"/>
+          </div>
+          <div class="form-group">
+            <label data-en="Project Type" data-fr="Type de Projet">Project Type</label>
+            <select id="f-type">
+              <option data-en="-- Select --" data-fr="-- Choisir --">-- Select --</option>
+              <option data-en="Industrial IoT" data-fr="IoT Industriel">Industrial IoT</option>
+              <option data-en="AI / Analytics" data-fr="IA / Analytique">AI / Analytics</option>
+              <option data-en="SCADA Integration" data-fr="Intégration SCADA">SCADA Integration</option>
+              <option data-en="Dashboard & BI" data-fr="Tableau de bord & BI">Dashboard & BI</option>
+              <option data-en="Custom Development" data-fr="Développement Sur Mesure">Custom Development</option>
+              <option data-en="Other" data-fr="Autre">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label data-en="Message" data-fr="Message">Message</label>
+            <textarea id="f-msg" placeholder="Tell us about your project..."></textarea>
+          </div>
+          <button class="form-submit" onclick="submitForm()" data-en="Send Message →" data-fr="Envoyer le Message →">Send Message →</button>
+        </div>
+        <div class="form-success" id="form-success">
+          ✅ <span data-en="Message received! We'll get back to you shortly." data-fr="Message reçu ! Nous vous répondrons sous peu.">Message received! We'll get back to you shortly.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">IWIK</div>
+    <div class="footer-copy">© 2025 Solutions IWIK Inc. — Québec, Canada</div>
+    <div class="footer-flag">🇨🇦</div>
+  </div>
+</footer>
+
+<!-- ═══ LOGO INLINE SVG ═══ -->
+<svg id="iwik-svg-logo" xmlns="http://www.w3.org/2000/svg" style="display:none" viewBox="0 0 200 200"></svg>
+
+<script>
+/* ─── EMBED LOGO as inline SVG from the uploaded image ─── */
+// We'll use the logo as a CSS-styled text + ring approximation since it's a clean brand mark
+// The logo is: IWIK text inside a dotted circle ring
+
+function buildLogoSVG(color='#00d4ff') {
+  return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <g fill="${color}">
+    <!-- Dotted ring -->
+    ${Array.from({length: 80}, (_, i) => {
+      const angle = (i / 80) * Math.PI * 2;
+      const r = 88 + (Math.sin(i*1.3)*3);
+      const x = 100 + r * Math.cos(angle);
+      const y = 100 + r * Math.sin(angle);
+      const size = 1.2 + Math.sin(i * 0.5) * 0.8;
+      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size.toFixed(1)}" opacity="${(0.4 + Math.sin(i*0.3)*0.4).toFixed(2)}"/>`;
+    }).join('')}
+    <!-- IWIK text -->
+    <text x="100" y="115" font-family="Arial Black, sans-serif" font-weight="900" font-size="42" text-anchor="middle" fill="${color}">IWIK</text>
+  </g>
+</svg>`)}`;
+}
+
+document.getElementById('nav-logo-img').src = buildLogoSVG('#00d4ff');
+document.getElementById('about-logo-img').src = buildLogoSVG('#00d4ff');
+
+/* ─── HERO CANVAS ─── */
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [], W, H;
+
+function resizeCanvas() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = canvas.parentElement.offsetHeight;
+}
+
+function createParticles() {
+  particles = [];
+  const count = Math.floor(W * H / 15000);
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 2 + 0.5
+    });
+  }
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, W, H);
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,212,255,0.6)';
+    ctx.fill();
+    for (let j = i + 1; j < particles.length; j++) {
+      const q = particles[j];
+      const dx = p.x - q.x, dy = p.y - q.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(q.x, q.y);
+        ctx.strokeStyle = `rgba(0,212,255,${0.15 * (1 - dist/120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+
+resizeCanvas(); createParticles(); drawParticles();
+window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
+
+/* ─── COUNTER ANIMATION ─── */
+function animateCounter(el, target) {
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.round(current);
+    if (current >= target) clearInterval(timer);
+  }, 20);
+}
+document.querySelectorAll('[data-count]').forEach(el => {
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      animateCounter(el, parseInt(el.dataset.count));
+      observer.disconnect();
+    }
+  }, { threshold: 0.5 });
+  observer.observe(el);
+});
+
+/* ─── SCROLL REVEAL ─── */
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+reveals.forEach(r => revealObserver.observe(r));
+
+/* ─── NAV SCROLL ─── */
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ─── HAMBURGER ─── */
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+document.querySelectorAll('#mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
+});
+
+/* ─── LANGUAGE TOGGLE ─── */
+let lang = 'en';
+function setLang(l) {
+  lang = l;
+  document.documentElement.setAttribute('data-lang', l);
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = el.getAttribute('data-' + l) || el.getAttribute('data-en');
+  });
+  document.getElementById('lang-btn').textContent = l === 'en' ? 'FR' : 'EN';
+  // Update placeholder for textarea
+  document.getElementById('f-msg').placeholder = l === 'fr' ? 'Décrivez votre projet...' : 'Tell us about your project...';
+}
+document.getElementById('lang-btn').addEventListener('click', () => {
+  setLang(lang === 'en' ? 'fr' : 'en');
+});
+
+/* ─── LIVE DASHBOARD UPDATES ─── */
+function randomBetween(min, max) { return (Math.random() * (max - min) + min).toFixed(1); }
+setInterval(() => {
+  const k1 = document.getElementById('kpi1');
+  const k2 = document.getElementById('kpi2');
+  const k3 = document.getElementById('kpi3');
+  const cyc = document.getElementById('cycle');
+  if (k1) k1.textContent = randomBetween(84, 93) + '%';
+  if (k2) k2.textContent = Math.floor(Math.random() * 3) + 22;
+  if (k3) k3.textContent = (Math.floor(Math.random() * 400) + 3100).toLocaleString();
+  if (cyc) cyc.textContent = randomBetween(22, 27) + ' min';
+}, 3000);
+
+/* ─── FORM SUBMIT ─── */
+function submitForm() {
+  const name = document.getElementById('f-name').value;
+  const email = document.getElementById('f-email').value;
+  if (!name || !email) {
+    alert(lang === 'fr' ? 'Veuillez remplir les champs requis.' : 'Please fill in required fields.');
+    return;
+  }
+  document.getElementById('form-wrap').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+</script>
+</body>
+</html>
